@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-# automated-job-web-scraping-extended
-Extended version of my previous script to include multiple companies. Script to do automated specific job searches and look for job postings straight from select company career websites.
-=======
 # Automated Job Web Scraping Script
 
 ![alt text](https://livelearn.ca/wp-content/uploads/2016/02/job-rejection.png
@@ -420,4 +416,3 @@ In ```scrape-state-farm.js```, after ```.then()``` I will call the email module 
 # Thanks: 
 
    [This guide](https://medium.com/@e_mad_ehsan/getting-started-with-puppeteer-and-chrome-headless-for-web-scrapping-6bf5979dee3e) by @emadehsan was very useful and helped me when I was stuck. View his source code [here](https://github.com/emadehsan/thal).
->>>>>>> ac3760664d2355c8ef63793843a9419bbdacde44
