@@ -3,14 +3,14 @@ const fs = require("fs");
 const constants = require("./../util/constants.js");
 const emailModule = require("./send-email.js");
 
-function stateFarmModule() {
+function capitalOneModule() {
     async function run() {
         const browser = await puppeteer.launch({
             headless: true
         });
 
         const page = await browser.newPage();
-        await page.goto(constants.STATE_FARM_URI);
+        await page.goto(constants.CAPITAL_ONE_URI);
         await page.click(constants.STATE_FARM_LOC_DRPDWN);
         await page.click(constants.STATE_FARM_TX_RD_BTN);
         await page.click(constants.STATE_FARM_SRCH_FRM);
@@ -23,7 +23,7 @@ function stateFarmModule() {
 
         const LIST_JOB_SELECTOR = constants.STATE_FARM_JOB_SELECTOR;
         const JOB_SELECTOR_ID = constants.STATE_FARM_JOB_SELECTOR_ID;
-        var arrayJobResults = [constants.STATE_FARM_RESULTS_TITLE];
+        var arrayJobResults = [constants.RESULTS_TITLE];
 
         for (let h = 1; h <= numPages; h++) {
             console.log("Page Number : " + h);
@@ -77,13 +77,13 @@ function stateFarmModule() {
     run().then((value) => {
         let data = value.join("\r\n");
         console.log(data);
-        fs.writeFile("dfw-tech-jobs.txt", data, function (err) {
-            console.log(constants.STATE_FARM_SUCCESS_STMT);
+        fs.appendFile("dfw-tech-jobs.txt", data, function (err) {
+            console.log(constants.SUCCESS_STMT);
         });
-        console.log("scrape-state-farm.js - created txt file")
-        //emailModule();
-        capitalOneModule();
+        fs.
+        console.log("scrape-capital-one.js - updated txt file")
+        emailModule();
     });
 }
 
-module.exports = stateFarmModule;
+module.exports = capitalOneModule;

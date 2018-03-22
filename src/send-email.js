@@ -17,12 +17,12 @@ function emailModule() {
 
     transporter.sendMail({
         from: credentials.email,
-        subject: "State Farm Jobs",
-        text: "Hey, here are the job searches:",
+        subject: "DFW Job Alerts",
+        text: "Hey, here are the new tech job postings around DFW: ",
         attachments: [
             {
-                'filename': 'state-farm-jobs.txt',
-                'path': 'C:/Users/Anthony/Documents/git/automated-job-web-scraping/state-farm-jobs.txt'
+                'filename': 'dfw-tech-jobs.txt',
+                'path': 'C:/Users/Anthony/Documents/git/automated-job-web-scraping/dfw-tech-jobs.txt'
             }
         ],
         to: credentials.email
