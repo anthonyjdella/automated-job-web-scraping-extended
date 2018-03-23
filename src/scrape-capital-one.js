@@ -3,87 +3,138 @@ const fs = require("fs");
 const constants = require("./../util/constants.js");
 const emailModule = require("./send-email.js");
 
-function capitalOneModule() {
-    async function run() {
-        const browser = await puppeteer.launch({
-            headless: true
-        });
+//function capitalOneModule() {
+async function run() {
+    const browser = await puppeteer.launch({
+        headless: false
+    });
 
-        const page = await browser.newPage();
-        await page.goto(constants.CAPITAL_ONE_URI);
-        await page.click(constants.STATE_FARM_LOC_DRPDWN);
-        await page.click(constants.STATE_FARM_TX_RD_BTN);
-        await page.click(constants.STATE_FARM_SRCH_FRM);
-        await page.keyboard.type(constants.STATE_FARM_SRCH_TECH);
-        await page.click(constants.STATE_FARM_SUBMIT_BTN);
-        await page.waitFor(2000);
+    const page = await browser.newPage();
+    await page.goto(constants.CAPITAL_ONE_URI);
+    await page.click(constants.CAPITAL_ONE_SELECTOR_CITY);
+    await page.click(constants.CAPITAL_ONE_SELECTOR_CITY_NAME);
 
-        const numPages = await getNumPages(page);
-        console.log('Number of pages: ', numPages);
+    //TO TEST FOR SINGLE PAGE RESULTS
+    //await page.click("#search-filters > div > section:nth-child(4) > ul > li:nth-child(1) > label");
 
-        const LIST_JOB_SELECTOR = constants.STATE_FARM_JOB_SELECTOR;
-        const JOB_SELECTOR_ID = constants.STATE_FARM_JOB_SELECTOR_ID;
-        var arrayJobResults = [constants.RESULTS_TITLE];
+    await page.waitFor(1000);
+    // await page.click(constants.CAPITAL_ONE_SELECTOR_CATEGORY);
+    // await page.click(constants.CAPITAL_ONE_SELECTOR_CATEGORY_SELECTION);
+    await page.waitFor(1000);
 
-        for (let h = 1; h <= numPages; h++) {
-            console.log("Page Number : " + h);
-            let jobListLength = await page.evaluate((sel) => {
-                let jobSelectorID = document.getElementById(sel);
-                let jobSelectorTagName = jobSelectorID.getElementsByTagName("li");
-                return jobSelectorTagName.length;
+    const numPages = await getNumPages(page);
+    console.log('Number of pages: ', numPages);
+
+    // const LIST_JOB_SELECTOR = "#search-results-list > ul";
+    const LIST_JOB_SELECTOR = constants.CAPITAL_ONE_JOB_SELECTOR;
+    const JOB_SELECTOR_ID = "#search-results";
+    var arrayJobResults = [constants.CAPITAL_ONE_RESULTS_TITLE];
+
+    for (let i = 1; i <= numPages; i++) {
+        console.log("Page Number : " + i);
+        if (i <= numPages-1){
+        var jobListLength = await page.evaluate((sel) => {
+            let jobSelectorID = document.querySelector(sel);
+            //TODO error here, data-records-per-page always returns 15. need to count number of li per page. manually.
+            var numberJobsPerPage = jobSelectorID.getAttribute("data-records-per-page");
+            // var num1 = jobSelectorID.getAttribute("data-total-results");
+            // var num2 = jobSelectorID.getAttribute("data-records-per-page");
+            // var num3 = num1 % num2;
+            //window.alert(jobListLength)
+            return numberJobsPerPage;
+            //return num3;
+        }, JOB_SELECTOR_ID);
+        }
+        else {
+            var jobListLength = await page.evaluate((sel) => {
+                let jobSelectorID = document.querySelector(sel);
+                //TODO error here, data-records-per-page always returns 15. need to count number of li per page. manually.
+                // var numberJobsPerPage = jobSelectorID.getAttribute("data-records-per-page");
+                var num1 = jobSelectorID.getAttribute("data-total-results");
+                var num2 = jobSelectorID.getAttribute("data-records-per-page");
+                var num3 = num1 % num2;
+                //window.alert(jobListLength)
+                // return numberJobsPerPage;
+                return num3;
             }, JOB_SELECTOR_ID);
-
-            for (let i = 1; i <= jobListLength; i++) {
-                let jobSelector = LIST_JOB_SELECTOR.replace("INDEX", i)
-
-                let jobListing = await page.evaluate((sel) => {
-                    return document.querySelector(sel).innerText;
-                }, jobSelector);
-
-                arrayJobResults.push(jobListing);
-            }
-            if (numPages != 1) {
-                await page.click(constants.STATE_FARM_NEXT_PAGE_SELECTOR);
-                await page.waitFor(2000);
-            }
         }
 
-        browser.close();
-        return arrayJobResults;
+        // let testing = await page.evaluate((sel) => {
+        //     var arrayJobResults = ["Capital One Jobs in Texas for InformationTechnology\n"];
+        //     let foo = document.querySelector(sel);
+        //     let bar = foo.getElementsByTagName("li");
+        //     for (let i = 0; i < bar.length; i++){
+        //         let eachJob = bar[i].innerText;
+        //         console.log(eachJob)
+        //         arrayJobResults.push(eachJob);
+        //     }
+        //     console.log(arrayJobResults);
+        //     return arrayJobResults;
+        // }, LIST_JOB_SELECTOR);
+
+
+        for (let i = 1; i <= jobListLength; i++) {
+            console.log(jobListLength)
+            var jobSelector = LIST_JOB_SELECTOR.replace("INDEX", i)
+
+            var jobListing = await page.evaluate((sel) => {
+                return document.querySelector(sel).innerText;
+            }, jobSelector);
+
+            arrayJobResults.push(jobListing);
+        }
+        //console.log("ANTHONYYYYYYYYY: " + arrayJobResults)
+        if (numPages != 1) {
+            if (i!=numPages){
+                await page.click(constants.CAPITAL_ONE_NEXT_PAGE_SELECTOR);
+                await page.waitFor(2000);
+            }
+            else{
+                break;
+            }
+        }
     }
 
-    async function getNumPages(page) {
-        const PAGE_CONTAINTER_SELECTOR = constants.STATE_FARM_PAGE_CONTAINTER_SELECTOR;
-        let pageCount = await page.evaluate((sel) => {
-            let defaultCount = 1;
-            let pageContainer = document.querySelector(sel);
-            try {
-                let allPages = pageContainer.getElementsByClassName("pagerLink");
-                if (allPages.length > 0) {
-                    return allPages.length;
-                }
-                else {
-                    return defaultCount;
-                }
-            }
-            catch (err){
-                console.log("Caught an exception: " + err);
-            }
-        }, PAGE_CONTAINTER_SELECTOR);
-        return pageCount;
-    }
-
-
-    run().then((value) => {
-        let data = value.join("\r\n");
-        console.log(data);
-        fs.appendFile("dfw-tech-jobs.txt", data, function (err) {
-            console.log(constants.SUCCESS_STMT);
-        });
-        fs.
-        console.log("scrape-capital-one.js - updated txt file")
-        emailModule();
-    });
+    //browser.close();
+    console.log("arrayJobResults "+arrayJobResults);
+    //console.log("testing" +testing)
+    //return testing;
+    return arrayJobResults;
 }
 
-module.exports = capitalOneModule;
+async function getNumPages(page) {
+    const PAGE_CONTAINTER_SELECTOR = constants.CAPITAL_ONE_SELECTOR_PAGE_NUMBER;
+    let pageCount = await page.evaluate((sel) => {
+        let defaultCount = 1;
+        try {
+            let pageContainer = document.querySelector(sel);
+            if (pageContainer != null) {
+                let pageNumber = pageContainer.getAttribute("max");
+                return pageNumber;
+            }
+            else {
+                return defaultCount;
+            }
+        }
+        catch (error) {
+            console.log("Caught an exception: " + error);
+        }
+    }, PAGE_CONTAINTER_SELECTOR);
+    return pageCount;
+}
+
+
+// run().then((value) => {
+//     let data = value.join("\r\n");
+//     console.log(data);
+//     fs.appendFile("dfw-tech-jobs.txt", data, function (err) {
+//         console.log(constants.SUCCESS_STMT);
+//     });
+//     fs.
+//     console.log("scrape-capital-one.js - updated txt file")
+//     emailModule();
+// });
+// }
+
+//module.exports = capitalOneModule;
+run();
