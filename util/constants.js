@@ -17,7 +17,7 @@ module.exports = Object.freeze({
     //Capital One
     CAPITAL_ONE_URI : "https://www.capitalonecareers.com/search-jobs",
     CAPITAL_ONE_SELECTOR_CITY : "#search-filters > div > section:nth-child(4)",
-    CAPITAL_ONE_SELECTOR_CITY_NAME : "#city-filter-170",
+    CAPITAL_ONE_SELECTOR_CITY_NAME : "#city-filter-169",
     CAPITAL_ONE_SELECTOR_CATEGORY : "#category-toggle",
     CAPITAL_ONE_SELECTOR_CATEGORY_SELECTION : "#search-filters > div > section:nth-child(1) > ul > li:nth-child(9) > label",
     // CAPITAL_ONE_SELECTOR_PAGE_NUMBER : "#pagination-bottom > div.pagination-page-count"

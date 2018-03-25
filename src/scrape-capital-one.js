@@ -11,16 +11,33 @@ async function run() {
 
     const page = await browser.newPage();
     await page.goto(constants.CAPITAL_ONE_URI);
-    await page.click(constants.CAPITAL_ONE_SELECTOR_CITY);
-    await page.click(constants.CAPITAL_ONE_SELECTOR_CITY_NAME);
+    //await page.click(constants.CAPITAL_ONE_SELECTOR_CITY);
+    //await page.click(constants.CAPITAL_ONE_SELECTOR_CITY_NAME);
+    // const yo = await clickCity(page);
+    // try {
+    //     await page.click("#search-keyword-9d3ee3c98e");
+    //     await page.keyboard.type("technology");
+    //     await page.click("#search-location-9d3ee3c98e");
+    //     await page.keyboard.type("plano");
+    //     await page.waitFor(4000);
+    //     await page.keyboard.press("ArrowDown");
+    //     await page.keyboard.press("ArrowDown");
+    //     await page.keyboard.press("ArrowDown");
+    //     await page.click("#search-submit-9d3ee3c98e");
+    // }
+    // catch (e){
+    //     console.log(e)
+    // }
+    await page.waitFor(1000);
 
     //TO TEST FOR SINGLE PAGE RESULTS
+    //await page.click(constants.CAPITAL_ONE_SELECTOR_CITY);
     //await page.click("#search-filters > div > section:nth-child(4) > ul > li:nth-child(1) > label");
 
-    await page.waitFor(1000);
+    // await page.waitFor(1000);
     // await page.click(constants.CAPITAL_ONE_SELECTOR_CATEGORY);
     // await page.click(constants.CAPITAL_ONE_SELECTOR_CATEGORY_SELECTION);
-    await page.waitFor(1000);
+    // await page.waitFor(1000);
 
     const numPages = await getNumPages(page);
     console.log('Number of pages: ', numPages);
@@ -101,6 +118,30 @@ async function run() {
     //return testing;
     return arrayJobResults;
 }
+
+//const EY = "#search-filters > div > section:nth-child(4) > ul";
+// async function clickCity(page) {
+//     var test = await page.evaluate((sel) => {
+//         // var test2 = document.querySelector("#search-filters > div > section:nth-child(4) > ul").getElementsByTagName("li");
+//         var test1 = document.querySelector("#search-filters > div > section:nth-child(4) > ul");
+//         var test2 = test1.getElementsByTagName("li");
+//         console.log(test2)
+//         window.alert(test2.length)
+//         for (var i=0; i< test2.length; i++){
+//             if (test2[i].innerText == "Plano, Texas, United States") {
+//                 console.log("HIIIIIIIII "+test2[i]);
+//                 test2.click();
+//                 window.alert("hi")
+//                 //await page.click(test2[i].innerText);
+//             }
+//             else{
+//                 //window.alert("NO")
+//             }
+//         }
+//     }/*,EY*/);
+//     return test;
+// }
+
 
 async function getNumPages(page) {
     const PAGE_CONTAINTER_SELECTOR = constants.CAPITAL_ONE_SELECTOR_PAGE_NUMBER;
