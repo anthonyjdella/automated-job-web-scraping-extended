@@ -4,6 +4,7 @@
   "description": "Script to get job postings straight from select company career websites.",
   "main": "Controller.js",
   "dependencies": {
+    "file-system": "^2.2.2",
     "fs": "0.0.1-security",
     "nodemailer": "^4.6.3",
     "nodemailer-smtp-transport": "^2.7.4",

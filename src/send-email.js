@@ -21,8 +21,8 @@ function emailModule() {
         text: "Hey, here are the new tech job postings around DFW: ",
         attachments: [
             {
-                'filename': 'dfw-tech-jobs.txt',
-                'path': 'C:/Users/Anthony/Documents/git/automated-job-web-scraping/dfw-tech-jobs.txt'
+                'filename': 'dfw-tech-jobs.html',
+                'path': 'C:/Users/Anthony/Documents/git/automated-job-web-scraping-extended/dfw-tech-jobs.html'
             }
         ],
         to: credentials.email

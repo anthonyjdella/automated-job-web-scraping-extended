@@ -2,6 +2,8 @@ const puppeteer = require('puppeteer');
 const fs = require("fs");
 const constants = require("./../util/constants.js");
 const emailModule = require("./send-email.js");
+const capitalOneModule = require("./scrape-capital-one.js");
+
 
 function stateFarmModule() {
     async function run() {
@@ -19,14 +21,14 @@ function stateFarmModule() {
         await page.waitFor(2000);
 
         const numPages = await getNumPages(page);
-        console.log('Number of pages: ', numPages);
+        //console.log('Number of pages: ', numPages);
 
         const LIST_JOB_SELECTOR = constants.STATE_FARM_JOB_SELECTOR;
         const JOB_SELECTOR_ID = constants.STATE_FARM_JOB_SELECTOR_ID;
         var arrayJobResults = [constants.STATE_FARM_RESULTS_TITLE];
 
         for (let h = 1; h <= numPages; h++) {
-            console.log("Page Number : " + h);
+            //console.log("Page Number : " + h);
             let jobListLength = await page.evaluate((sel) => {
                 let jobSelectorID = document.getElementById(sel);
                 let jobSelectorTagName = jobSelectorID.getElementsByTagName("li");
@@ -66,7 +68,7 @@ function stateFarmModule() {
                     return defaultCount;
                 }
             }
-            catch (err){
+            catch (err) {
                 console.log("Caught an exception: " + err);
             }
         }, PAGE_CONTAINTER_SELECTOR);
@@ -75,13 +77,20 @@ function stateFarmModule() {
 
 
     run().then((value) => {
-        let data = value.join("\r\n");
+        // To format .txt files
+        // let data = value.join("\r\n");
+        // To format .html files
+        let data = "<p>" + value.join("</li><li>") + "</ol>" + "</p>";
         console.log(data);
-        fs.writeFile("dfw-tech-jobs.txt", data, function (err) {
-            console.log(constants.STATE_FARM_SUCCESS_STMT);
+        fs.writeFile("dfw-tech-jobs.html", data, function (err) {
+            if (err) {
+                console.log("ERROR with writing State Farm file");
+            }
+            else {
+                console.log(constants.STATE_FARM_SUCCESS_STMT);
+            }
         });
-        console.log("scrape-state-farm.js - created txt file")
-        //emailModule();
+        //console.log("scrape-state-farm.js - created txt file")
         capitalOneModule();
     });
 }
