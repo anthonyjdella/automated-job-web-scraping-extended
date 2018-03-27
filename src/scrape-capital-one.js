@@ -19,17 +19,17 @@ function capitalOneModule() {
         // await page.click(constants.CAPITAL_ONE_SELECTOR_CATEGORY_SELECTION);
         // await page.waitFor(1000);
         try {
+            await page.waitFor(4000);
+            await page.click("#search-keyword-9619a9f75d");
+            await page.keyboard.type("developer");
             await page.waitFor(1000);
-            await page.click("#search-keyword-36402a5987");
-            await page.keyboard.type("technology");
-            await page.waitFor(1000);
-            await page.click("#search-location-36402a5987");
+            await page.click("#search-location-9619a9f75d");
             await page.keyboard.type("plano");
             await page.waitFor(4000);
             await page.keyboard.press("ArrowDown");
             await page.keyboard.press("ArrowDown");
             await page.keyboard.press("ArrowDown");
-            await page.click("#search-submit-36402a5987");
+            await page.click("#search-submit-9619a9f75d");
         }
         catch (e) {
             console.log(e)
@@ -96,7 +96,17 @@ function capitalOneModule() {
                 var jobSelector = LIST_JOB_SELECTOR.replace("INDEX", i)
 
                 var jobListing = await page.evaluate((sel) => {
-                    return document.querySelector(sel).innerText;
+                    // return document.querySelector(sel).innerText;
+                    var string = document.querySelector(sel).innerText;
+                    // return string.toLowerCase();
+                    return toTitleCase(string);
+
+                    //Format text. Upper case first letter, lower case rest.
+                    function toTitleCase(str){
+                        return str.replace(/\w\S*/g, function(txt){
+                            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                        });
+                    }
                 }, jobSelector);
 
                 arrayJobResults.push(jobListing);
