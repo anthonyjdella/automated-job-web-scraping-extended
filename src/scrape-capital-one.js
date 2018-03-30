@@ -2,6 +2,8 @@ const puppeteer = require('puppeteer');
 const fs = require("fs");
 const constants = require("./../util/constants.js");
 const emailModule = require("./send-email.js");
+// const matchModule = require("./scrape-match.js");
+
 
 function capitalOneModule() {
     async function run() {
@@ -14,18 +16,18 @@ function capitalOneModule() {
         try {
             console.log("1. Starting automation for Capital One...");
             await page.waitFor(4000);
-            page.click(constants.CAPITAL_ONE_SELECTOR_CATEGORY);
+            await page.click(constants.CAPITAL_ONE_SELECTOR_CATEGORY);
             await page.waitFor(2000);
             await page.keyboard.type(constants.CAPITAL_ONE_SELECTOR_CATEGORY_TYPE);
             await page.waitFor(2000);
-            page.click(constants.CAPITAL_ONE_SELECTOR_CITY);
+            await page.click(constants.CAPITAL_ONE_SELECTOR_CITY);
             await page.waitFor(2000);
             await page.keyboard.type(constants.CAPITAL_ONE_SELECTOR_CITY_NAME);
             await page.waitFor(4000);
             await page.keyboard.press(constants.CAPITAL_ONE_ARROW_DOWN);
             await page.keyboard.press(constants.CAPITAL_ONE_ARROW_DOWN);
             await page.keyboard.press(constants.CAPITAL_ONE_ARROW_DOWN);
-            page.click(constants.CAPITAL_ONE_NEXT_PAGE_SELECTOR);
+            await page.click(constants.CAPITAL_ONE_NEXT_PAGE_SELECTOR);
             await page.waitFor(3000);
         }
         catch (e) {
@@ -130,6 +132,7 @@ function capitalOneModule() {
         });
         //console.log("scrape-capital-one.js - updated txt file")
         emailModule();
+        //matchModule();
     });
 }
 
