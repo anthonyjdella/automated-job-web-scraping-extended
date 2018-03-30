@@ -5,6 +5,16 @@ This is the "production" version of my previous repository (**automated-job-web-
 Job Data is Aggregated from:
 1. State Farm
 2. Capital One
+3. Match.com
+
+Other Additions:
+- Email output as HTML file with styling
+
+TODO Additions:
+- More companies (VMware, Toyota Connected, Intuit, IBM, Southwest, Salesforce, Google, Amazon, FB, MS)
+- Run on a weekly schedule (server or startup .bin)
+- AWS integration
+- DB integration
 
 The other repo is a proof of concept/demo/guide and is only for 1 company. To view that repo, [click here](https://github.com/anthonyjdella/automated-job-web-scraping).
 
