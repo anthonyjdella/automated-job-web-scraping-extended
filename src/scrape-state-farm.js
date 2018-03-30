@@ -11,6 +11,7 @@ function stateFarmModule() {
             headless: true
         });
 
+        console.log("1. Starting automation for State Farm...");
         const page = await browser.newPage();
         await page.goto(constants.STATE_FARM_URI);
         await page.click(constants.STATE_FARM_LOC_DRPDWN);
@@ -27,6 +28,7 @@ function stateFarmModule() {
         const JOB_SELECTOR_ID = constants.STATE_FARM_JOB_SELECTOR_ID;
         var arrayJobResults = [constants.STATE_FARM_RESULTS_TITLE];
 
+        console.log("2. Starting scraping for State Farm...");
         for (let h = 1; h <= numPages; h++) {
             //console.log("Page Number : " + h);
             let jobListLength = await page.evaluate((sel) => {
@@ -81,7 +83,7 @@ function stateFarmModule() {
         // let data = value.join("\r\n");
         // To format .html files
         let data = "<p>" + value.join("</li><li>") + "</ol>" + "</p>";
-        console.log(data);
+        //console.log(data);
         fs.writeFile("dfw-tech-jobs.html", data, function (err) {
             if (err) {
                 console.log("ERROR with writing State Farm file");

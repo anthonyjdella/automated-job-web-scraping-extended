@@ -5,6 +5,7 @@ const credentials = require('./../util/credentials.js');
 
 
 function emailModule() {
+    console.log("1. Starting to send email...");
     const transporter = nodemailer.createTransport(smtpTransport({
         service: 'Gmail',
         host: 'smtp.gmail.com',
@@ -30,8 +31,8 @@ function emailModule() {
         if (error) {
             return console.log(error);
         }
-        console.log('Message %s sent: %s', info.messageId, info.response);
-        console.log("E-Mail sent successfully to " + credentials.email);
+        //console.log('Message %s sent: %s', info.messageId, info.response);
+        console.log("2. E-Mail sent successfully to " + credentials.email);
     });
 }
 

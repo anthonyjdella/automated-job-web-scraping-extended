@@ -12,37 +12,34 @@ function capitalOneModule() {
         const page = await browser.newPage();
         await page.goto(constants.CAPITAL_ONE_URI);
         try {
+            console.log("1. Starting automation for Capital One...");
             await page.waitFor(4000);
-            //clicking on an ID that contains "search-keyword". Useful if ID is changing.
-            page.click('[id^="search-keyword-"]');
+            page.click(constants.CAPITAL_ONE_SELECTOR_CATEGORY);
             await page.waitFor(2000);
-            await page.keyboard.type("developer");
+            await page.keyboard.type(constants.CAPITAL_ONE_SELECTOR_CATEGORY_TYPE);
             await page.waitFor(2000);
-            page.click('[id^="search-location-"]');
+            page.click(constants.CAPITAL_ONE_SELECTOR_CITY);
             await page.waitFor(2000);
-            await page.keyboard.type("plano");
+            await page.keyboard.type(constants.CAPITAL_ONE_SELECTOR_CITY_NAME);
             await page.waitFor(4000);
-            await page.keyboard.press("ArrowDown");
-            await page.keyboard.press("ArrowDown");
-            await page.keyboard.press("ArrowDown");
-            page.click('[id^="search-submit-"]');
+            await page.keyboard.press(constants.CAPITAL_ONE_ARROW_DOWN);
+            await page.keyboard.press(constants.CAPITAL_ONE_ARROW_DOWN);
+            await page.keyboard.press(constants.CAPITAL_ONE_ARROW_DOWN);
+            page.click(constants.CAPITAL_ONE_NEXT_PAGE_SELECTOR);
+            await page.waitFor(3000);
         }
         catch (e) {
             console.log(e)
         }
-        await page.waitFor(3000);
-
-        //TO TEST FOR SINGLE PAGE RESULTS
-        //await page.click(constants.CAPITAL_ONE_SELECTOR_CITY);
-        //await page.click("#search-filters > div > section:nth-child(4) > ul > li:nth-child(1) > label");
 
         const numPages = await getNumPages(page);
-        console.log('Number of pages: ', numPages);
+        //console.log('Number of pages: ', numPages);
 
         const LIST_JOB_SELECTOR = constants.CAPITAL_ONE_JOB_SELECTOR;
         const JOB_SELECTOR_ID = "#search-results";
         var arrayJobResults = [constants.CAPITAL_ONE_RESULTS_TITLE];
 
+        console.log("2. Starting scraping for Capital One...");
         for (let i = 1; i <= numPages; i++) {
             //console.log("Page Number : " + i);
             if (i <= numPages - 1) {
@@ -71,8 +68,8 @@ function capitalOneModule() {
                     return toTitleCase(string);
 
                     //Format text. Upper case first letter, lower case rest.
-                    function toTitleCase(str){
-                        return str.replace(/\w\S*/g, function(txt){
+                    function toTitleCase(str) {
+                        return str.replace(/\w\S*/g, function (txt) {
                             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
                         });
                     }
@@ -122,7 +119,7 @@ function capitalOneModule() {
         // let data = value.join("\r\n");
         // To format .html files
         let data = "<p>" + value.join("</li><li>") + "</ol>" + "</p>";
-        console.log(data);
+        //console.log(data);
         fs.appendFile("dfw-tech-jobs.html", data, function (err) {
             if (err) {
                 console.log("ERROR with writing Capital One file");
