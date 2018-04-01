@@ -14,7 +14,7 @@ function capitalOneModule() {
         const page = await browser.newPage();
         await page.goto(constants.CAPITAL_ONE_URI);
         try {
-            console.log("1. Starting automation for Capital One...");
+            console.log("- Starting automation for Capital One...");
             await page.waitFor(4000);
             await page.click(constants.CAPITAL_ONE_SELECTOR_CATEGORY);
             await page.waitFor(2000);
@@ -39,9 +39,9 @@ function capitalOneModule() {
 
         const LIST_JOB_SELECTOR = constants.CAPITAL_ONE_JOB_SELECTOR;
         const JOB_SELECTOR_ID = "#search-results";
-        var arrayJobResults = [constants.CAPITAL_ONE_RESULTS_TITLE];
+        var arrayJobResults = [constants.CSS_STYLING_CAPITAL_ONE, constants.CAPITAL_ONE_RESULTS_TITLE];
 
-        console.log("2. Starting scraping for Capital One...");
+        console.log("-- Starting scraping for Capital One...");
         for (let i = 1; i <= numPages; i++) {
             //console.log("Page Number : " + i);
             if (i <= numPages - 1) {

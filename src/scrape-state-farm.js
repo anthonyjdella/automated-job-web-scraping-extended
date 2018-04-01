@@ -11,7 +11,7 @@ function stateFarmModule() {
             headless: true
         });
 
-        console.log("1. Starting automation for State Farm...");
+        console.log("- Starting automation for State Farm...");
         const page = await browser.newPage();
         await page.goto(constants.STATE_FARM_URI);
         await page.click(constants.STATE_FARM_LOC_DRPDWN);
@@ -26,9 +26,9 @@ function stateFarmModule() {
 
         const LIST_JOB_SELECTOR = constants.STATE_FARM_JOB_SELECTOR;
         const JOB_SELECTOR_ID = constants.STATE_FARM_JOB_SELECTOR_ID;
-        var arrayJobResults = [constants.STATE_FARM_RESULTS_TITLE];
+        var arrayJobResults = [constants.CSS_STYLING_STATE_FARM, constants.STATE_FARM_RESULTS_TITLE];
 
-        console.log("2. Starting scraping for State Farm...");
+        console.log("-- Starting scraping for State Farm...");
         for (let h = 1; h <= numPages; h++) {
             //console.log("Page Number : " + h);
             let jobListLength = await page.evaluate((sel) => {

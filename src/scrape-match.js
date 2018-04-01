@@ -7,7 +7,7 @@ const emailModule = require("./send-email.js");
 function matchModule() {
     async function run() {
         const browser = await puppeteer.launch({
-            headless: false
+            headless: true
         });
 
         // ````````````GOING TO MATCH AND HAVING AN IFRAME BLOCK ACCESS```````````````
@@ -34,7 +34,7 @@ function matchModule() {
         //``````````````DIRECTLY GOING TO IFRAME URL````````````````````````
         const page = await browser.newPage();
         try {
-            console.log("1. Starting automation for Match.com...");
+            console.log("- Starting automation for Match.com...");
             await page.goto(constants.MATCH_URI);
             await page.waitFor(3000);
             await page.click(constants.MATCH_SELECTOR_CITY_NAME);
@@ -56,10 +56,10 @@ function matchModule() {
         //     return formatJobCount;
         // }, JOB_COUNT_SELECTOR);
 
-        console.log("2. Starting scraping for Match.com...")
+        console.log("-- Starting scraping for Match.com...")
         const DALLAS_JOB_SELECTOR = '[office_id="24843"]';
         var jobListing = await page.evaluate((sel) => {
-            var arrayOfJobs = ["\n\n<b>Match.com Jobs in Dallas</b><ol><li>\n"];
+            var arrayOfJobs = ['<div style = "font-family: Arial; color: darkcyan;"> \n\n<li><b>Match.com Jobs in Dallas</b><ol><li>\n'];
             var nodeObject = document.querySelectorAll(sel);
             var arrayOfHtml = Array.from(nodeObject);
             for (var i = 0; i < arrayOfHtml.length; i++) {
