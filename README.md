@@ -8,6 +8,7 @@ Job Data is Aggregated from:
 3. Match.com
 
 Other Additions:
+- Add links (href) to each job
 - Email output as HTML file with styling
 
 TODO Additions:
