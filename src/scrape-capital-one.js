@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer');
 const fs = require("fs");
 const constants = require("./../util/constants.js");
 const emailModule = require("./send-email.js");
-// const matchModule = require("./scrape-match.js");
+const matchModule = require("./scrape-match.js");
 
 
 function capitalOneModule() {
@@ -131,8 +131,7 @@ function capitalOneModule() {
             }
         });
         //console.log("scrape-capital-one.js - updated txt file")
-        emailModule();
-        //matchModule();
+        matchModule();
     });
 }
 
