@@ -1,6 +1,6 @@
 # Automated Job Web Scraping Extended #
 
-This is the "production" version of my previous repository (**automated-job-web-scraping**) and aggregates job data from multiple companies.
+This is the "production" version of my demo repository (**automated-job-web-scraping**) and aggregates job data from multiple companies.
 
 Job Data is Aggregated from:
 1. State Farm
